@@ -82,3 +82,23 @@ body {
   background:transparent; border:none; font-weight:bold;
   font-size:14px; cursor:pointer; color:#222; padding:0 6px;
 }
+
+/* Back to Dashboard Button */
+.back-btn {
+  position: fixed;
+  top: 12px;
+  right: 20px;
+  background: none;
+  color: #00b4d8;
+  font-size: 18px;
+  text-decoration: none;
+  padding: 8px 12px;
+  transition: all 0.3s ease;
+  z-index: 1002;
+}
+
+.back-btn:hover {
+  color: #90e0ef;
+  text-decoration: underline;
+}
+

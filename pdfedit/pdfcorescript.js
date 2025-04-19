@@ -201,3 +201,7 @@ function getPageFromScroll(y){
   return 1;
 }
 window.addEventListener("load", loadNotes);
+
+
+
+
