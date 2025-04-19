@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VC Study Rooms</title>
+  <link rel="stylesheet" href="vc-style.css"/>
+</head>
+<body>
+  <div class="nav">
+    <button class="back-btn" onclick="window.location.href='landingroom.html'">← Back</button>
+    <button class="create-btn" id="createRoomBtn">Create Room</button>
+  </div>
+
+  <div class="room-container">
+    <h2>Available Rooms:</h2>
+    <div class="room-list" id="roomList">
+      <!-- dynamically added room cards -->
+    </div>
+  </div>
+
+  <!-- hidden by default -->
+  <div class="modal hidden" id="createModal">
+    <div class="modal-content">
+      <h2>Create VC Room</h2>
+      <form id="createRoomForm">
+        <label for="meetInput">Google Meet Link/Code</label>
+        <input type="text"
+               id="meetInput"
+               placeholder="Paste full link or just the code (e.g. abc‑defg‑hjk)"
+               required />
+
+        <label for="roomNameInput">Room Name</label>
+        <input type="text" id="roomNameInput" placeholder="Enter room name" required />
+
+        <label for="roomDescInput">Description</label>
+        <textarea id="roomDescInput" placeholder="Short description"></textarea>
+
+        <label for="roomMoreInput">More… (optional)</label>
+        <textarea id="roomMoreInput" placeholder="Additional info"></textarea>
+
+        <div class="modal-actions">
+          <button type="submit" class="save-btn">Save Room</button>
+          <button type="button" class="cancel-btn" id="cancelBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+    <script src="vcroom.js"></script>
+    <script src="server.js"></script>
+</body>
+</html>

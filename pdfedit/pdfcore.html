@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PDF Editor</title>
+  <link rel="stylesheet" href="pdfstyles.css" />
+  <link rel="stylesheet" href="whiteboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- Whiteboard Toggle Button -->
+  <button id="toggleWhiteboard" class="toggle-btn">&lt;|</button>
+
+  <!-- PDF Editor Toolbar -->
+  <div class="toolbar">
+    <input type="file" id="fileInput" accept="application/pdf" />
+    <button id="addText" title="Add Text"><i class="fas fa-font"></i></button>
+    <button id="draw" title="Draw"><i class="fas fa-pen"></i></button>
+    <button id="erase" title="Erase"><i class="fas fa-eraser"></i></button>
+    <select id="colorPicker">
+      <option value="black">Black</option>
+      <option value="red">Red</option>
+      <option value="blue">Blue</option>
+      <option value="green">Green</option>
+    </select>
+    <input type="range" id="brushSize" min="1" max="20" value="5" />
+    <button id="togglePagination" title="Toggle Pagination"><i class="fas fa-arrows-alt-v"></i></button>
+    <button id="prevPage" title="Previous Page"><i class="fas fa-chevron-left"></i></button>
+    <button id="nextPage" title="Next Page"><i class="fas fa-chevron-right"></i></button>
+    <button id="savePDF" title="Save PDF"><i class="fas fa-save"></i></button>
+    <button id="downloadPDF" title="Download PDF"><i class="fas fa-file-download"></i></button>
+    <button id="addStickyNote" title="Add Sticky Note"><i class="fas fa-sticky-note"></i></button>
+  </div>
+
+  <!-- PDF Container -->
+  <div id="pdfContainer" class="scroll-mode"></div>
+
+  <!-- Whiteboard Panel -->
+  <div id="whiteboardPanel" class="whiteboard hidden">
+    <div class="whiteboard-toolbar">
+      <button id="penBtn">✏️</button>
+      <button id="eraserBtn">🧽</button>
+      <select id="colorSelect">
+        <option value="black">Black</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+      </select>
+      <input type="range" id="sizeSlider" min="2" max="20" value="4" />
+      <button id="addPage">➕ Page</button>
+      <button id="wbPrevPage">⬅️</button>
+      <button id="wbNextPage">➡️</button>
+      <button id="closeWhiteboard">❌</button>
+      <button id="toggleTheme">🌓</button>
+    </div>
+    <div id="canvasContainer"></div>
+  </div>
+
+  <!-- Notes Panel -->
+  <div id="notesPanel" class="notes-panel collapsed">
+    <button id="toggleNotes" class="notes-toggle">📝</button>
+    <div class="notes-content">
+      <textarea id="noteInput" placeholder="Write a note..."></textarea>
+      <button id="addNote">➕ Save Note</button>
+      <ul id="noteList"></ul>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script src="pdfcorescript.js"></script>
+  <script src="whiteboard.js"></script>
+  <script src="sticky.js"></script>
+</body>
+</html>

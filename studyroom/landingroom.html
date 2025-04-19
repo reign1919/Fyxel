@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Study Rooms</title>
+  <link rel="stylesheet" href="landing.css" />
+</head>
+<body class="dark">
+  <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
+
+  <div class="container">
+    <h1>Welcome to the Study Room</h1>
+    <p>Choose your study vibe:</p>
+
+    <div class="button-grid">
+      <div class="option" onmouseenter="showInfo('vc')" onmouseleave="hideInfo()">
+        <a href="vc-studyroom.html">Join VC Study Room</a>
+      </div>
+
+      <div class="option" onmouseenter="showInfo('static')" onmouseleave="hideInfo()">
+        <a href="static-studyroom.html">Join Static Study Room</a>
+      </div>
+    </div>
+
+    <div class="info-box" id="infoBox">Hover over a button to learn more.</div>
+  </div>
+
+  <script>
+    const infoBox = document.getElementById('infoBox');
+
+    function showInfo(type) {
+      if (type === 'vc') {
+        infoBox.textContent = "VC Rooms use Google Meet — join a live group call and study together!";
+      } else {
+        infoBox.textContent = "Static Rooms are chill — no calls, just focused group presence and silent accountability.";
+      }
+    }
+
+    function hideInfo() {
+      infoBox.textContent = "Hover over a button to learn more.";
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      document.body.classList.toggle('light');
+      const toggle = document.querySelector('.theme-toggle');
+      toggle.textContent = document.body.classList.contains('dark') ? "🌙" : "☀️";
+    }
+  </script>
+</body>
+</html>

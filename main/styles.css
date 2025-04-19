@@ -1,0 +1,34 @@
+body {
+  background-color: #0d1b2a;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.form-wrapper, .welcome-wrapper {
+  background-color: #1b263b;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px #00b4d8;
+  text-align: center;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 8px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #00b4d8;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
