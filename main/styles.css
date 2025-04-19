@@ -16,12 +16,12 @@ body {
   border-radius: 15px;
   box-shadow: 0 0 15px #00b4d8;
   text-align: center;
-  margin-top: 100px; /* Space out from the top */
+  margin-top: 100px;
 }
 
 .button-container {
   position: absolute;
-  top: 20px; /* Place buttons at the top */
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -34,7 +34,10 @@ body {
   color: #fff;
   position: relative;
   padding-bottom: 5px;
+  cursor: pointer;
   transition: color 0.3s;
+  background: transparent; /* Ensure it's transparent */
+  border: none; /* Remove button border */
 }
 
 .btn:hover {
@@ -57,19 +60,7 @@ body {
   transform: scaleX(1);
 }
 
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 8px;
-}
-
+/* Ensuring buttons have no default style */
 button {
-  padding: 10px 20px;
-  background-color: #00b4d8;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
+  all: unset; /* Remove default button styles */
 }
