@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+  <title>Study Rooms</title>
+  <link rel="stylesheet" href="landing.css" />
+</head>
+<body class="dark">
+  <a href="https://reign1919.github.io/Fyxel/" class="fyxel-logo">Fyxel</a>
+  <!-- Theme Toggle -->
+  <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
+
+  <!-- Container -->
+  <div class="container">
+    <h1>Welcome to the Study Room</h1>
+    <p>Choose your study vibe:</p>
+
+    <div class="button-grid">
+      <div class="option" onmouseenter="showInfo('vc')" onmouseleave="hideInfo()">
+        <a href="vc-studyroom.html">Join VC Study Room</a>
+      </div>
+
+  <div class="option" onmouseenter="showInfo('static')" onmouseleave="hideInfo()">
+    <a href="https://discord.gg/vfzX4swEmh" target="_blank" rel="noopener noreferrer">
+      Join Static Study Room
+    </a>
+  </div>
+
+    </div>
+
+    <div class="info-box" id="infoBox">Hover over a button to learn more.</div>
+  </div>
+  <a href="landingroom.html" class="back-btn">⬅ Back</a>
+
+  <!-- Discord Warning Modal -->
+  <div id="discordModal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <h2>Discord Required</h2>
+      <p>To use the Voice Chat feature, you will need Discord installed and an active account.</p>
+      <div class="discord-buttons">
+        <button id="browserBtn">Open in Browser</button>
+        <button id="appBtn">Open in App</button>
+      </div>
+    </div>
+  </div>
+
+  <a href="https://reign1919.github.io/Fyxel/" class="back-btn">⬅ Back</a>
+
+  <script src="landing.js"></script>
+</body>
+</html>

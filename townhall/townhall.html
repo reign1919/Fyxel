@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Townhall • Fyxel</title>
+  <link rel="stylesheet" href="townhall.css" />
+</head>
+<body>
+  <a href="https://reign1919.github.io/Fyxel/" class="fyxel-logo">Fyxel</a>
+  <div class="bg" aria-hidden="true"></div>
+
+  <main class="stage">
+    <div class="card townhall-card">
+      <div class="card-left">
+        <!-- Brand stays inline -->
+        <div class="brand">Fyxel Townhall</div>
+
+        <h1 class="title">Study Townhall</h1>
+
+        <div class="count-row">
+          <div class="count-bubble" id="countBubble">
+            <div class="you">You and</div>
+            <div class="count" id="countDisplay">0</div>
+            <div class="small">others are studying</div>
+            <div class="glow-ring" id="glowRing" aria-hidden="true"></div>
+          </div>
+
+          <div class="session">
+            <div class="label">Sessions today</div>
+            <div class="session-num" id="sessionCount">0</div>
+          </div>
+        </div>
+
+        <div class="avatars-strip" id="avatarsStrip" aria-hidden="false"></div>
+
+        <div class="controls">
+          <!-- Glowy focus mode button only -->
+          <button class="btn focus-glow big" id="focusBtn">⚡ Enter Focus Mode</button>
+        </div>
+      </div>
+
+      <div class="card-right">
+        <div class="panel">
+          <h4>Live Activity</h4>
+          <!-- Toasts will fade in/out here -->
+          <ul id="blipList" class="blip-list" aria-live="polite"></ul>
+        </div>
+        <div class="panel smallpanel">
+          <h4>Recent Locations</h4>
+          <!-- City name styled grey/white -->
+          <div id="locationHint" class="locationHint">—</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Achievement toasts -->
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <script src="townhall.js"></script>
+</body>
+</html>

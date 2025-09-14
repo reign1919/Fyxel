@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PDF Editor | Fyxel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="stylesheet" href="pdfstyles.css" />
+</head>
+<body class="dark-mode">
+  <a href="https://reign1919.github.io/Fyxel/" class="fyxel-logo">Fyxel</a>
+  
+  <div class="topbar">
+    <a href="https://reign1919.github.io/Fyxel/" class="back-btn" id="backBtn" style="display:none;">Back</a>
+    <button class="btn" id="modeToggle">Switch to Dark Mode</button>
+  </div>
+
+  <div class="container" id="uploadContainer">
+    <input type="file" id="fileInput" accept="application/pdf" />
+    <button class="btn" id="uploadBtn">Upload & Edit</button>
+  </div>
+
+  <!-- Loading message -->
+  <div id="loadingMsg" style="display:none;">Thank you for using Fyxel, loading your PDF...</div>
+
+  <!-- PDF iframe -->
+  <div id="editorWrap" style="display:none;">
+    <iframe id="pdfEditorFrame"></iframe>
+  </div>
+  
+  <!-- Open Whiteboard Button -->
+  <button id="openWhiteboardBtn">Open Whiteboard</button>
+
+  <script src="pdfcorescript.js"></script>
+</body>
+</html>

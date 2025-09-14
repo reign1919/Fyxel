@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Fyxel — 25m Focus</title>
+<style>
+  :root{
+    --bg-1:#050814;
+    --neon:#00f6ff;
+    --neon-2:#7be8ff;
+    --accent:#6d5cff;
+    --muted:rgba(255,255,255,0.08);
+  }
+  html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; background: radial-gradient(circle at top left,#07112a,#010206); color:#eafcff; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
+  /* Fyxel Logo */
+  .fyxel-logo{
+    position:fixed;top:20px;right:28px;z-index:1100;
+    font-weight:900;font-size:1.4rem;text-decoration:none;color:var(--neon);
+    text-shadow:0 0 8px rgba(0,246,255,0.12), 0 0 20px rgba(0,120,255,0.06);
+    padding:6px 10px;border-radius:8px;backdrop-filter: blur(6px);
+  }
+  .fyxel-logo:hover{transform:scale(1.05);text-shadow:0 0 14px var(--neon-2)}
+  /* Back */
+  .back-btn{
+    position:fixed;top:20px;left:28px;z-index:1100;
+    display:inline-block;padding:8px 12px;border-radius:10px;color:#dff9ff;text-decoration:none;
+    background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);
+  }
+  .back-btn:hover{color:var(--neon);border-color:var(--neon)}
+  /* Main layout */
+  .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:48px;box-sizing:border-box}
+  .panel{
+    width:min(720px,96%);background:linear-gradient(180deg, rgba(6,10,24,0.45), rgba(6,8,18,0.55));
+    border-radius:18px;padding:36px;box-shadow:0 10px 60px rgba(2,8,26,0.8), inset 0 1px 0 rgba(255,255,255,0.02);
+    border:1px solid rgba(0,255,255,0.03);position:relative;overflow:hidden;
+  }
+  .panel h1{margin:0 0 10px 0;color:var(--neon);font-size:1.4rem}
+  .panel p{margin:0 0 18px 0;color:rgba(230,250,255,0.8)}
+  /* Timer circle */
+  .timer-box{display:flex;flex-direction:column;align-items:center;gap:22px;}
+  .timer-circle{
+    width:300px;height:300px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:conic-gradient(var(--muted) 0deg, rgba(255,255,255,0.03) 0deg);
+    box-shadow:0 12px 40px rgba(0,120,255,0.06), inset 0 -8px 40px rgba(0,0,0,0.4);
+    position:relative;
+  }
+  .timer-circle::after{
+    content:"";position:absolute;width:78%;height:78%;border-radius:50%;background:linear-gradient(180deg,#051225,#02101a);box-shadow:inset 0 6px 16px rgba(0,0,0,0.6)
+  }
+  .time-text{position:relative;z-index:2;font-size:3.2rem;font-weight:800;color:#ffffff;text-shadow:0 0 16px rgba(0,246,255,0.08)}
+  .time-sub{position:relative;z-index:2;color:rgba(255,255,255,0.85);font-size:0.95rem;margin-top:6px}
+  /* Start button */
+  .controls{display:flex;gap:12px;align-items:center;justify-content:center}
+  .btn{
+    padding:14px 26px;border-radius:28px;border:2px solid rgba(255,255,255,0.06);background:transparent;color:var(--neon);
+    cursor:pointer;font-weight:800;font-size:1rem;box-shadow:0 8px 30px rgba(0,246,255,0.04);
+    transition:all .16s ease;
+  }
+  .btn.primary{
+    background:linear-gradient(135deg,var(--neon),var(--accent));color:#041226;border:none;box-shadow:0 18px 50px rgba(0,246,255,0.08);
+  }
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:#dff}
+  .btn:active{transform:translateY(2px)}
+  .btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+  /* overlay warning */
+  .overlay{
+    position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+    background:linear-gradient(180deg, rgba(2,6,10,0.6), rgba(2,6,10,0.8));z-index:1200;
+  }
+  .overlay.show{display:flex}
+  .warn-card{
+    width:min(720px,92%);max-width:900px;padding:28px;border-radius:14px;background:linear-gradient(180deg,#081829,#02101a);
+    box-shadow:0 30px 80px rgba(0,0,0,0.7);border:1px solid rgba(0,255,255,0.06);text-align:center;color:#e6fbff;
+  }
+  .warn-card h2{margin:0 0 8px 0;color:var(--neon)}
+  .warn-card p{margin:0 0 16px 0;color:rgba(225,245,255,0.9)}
+  .warn-actions{display:flex;gap:12px;justify-content:center;margin-top:12px}
+  /* small info */
+  .muted{color:rgba(235,250,255,0.7);font-size:0.92rem}
+  /* break bar */
+  .break-panel{display:none;flex-direction:column;align-items:center;gap:12px}
+  .break-panel.show{display:flex}
+  .continue-btn{padding:12px 22px;border-radius:12px;background:linear-gradient(135deg,var(--neon),var(--accent));color:#041226;border:none;font-weight:800}
+  /* small helper */
+  .helper-row{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:6px}
+  .small-pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);font-weight:700;color:rgba(255,255,255,0.9);border:1px solid rgba(255,255,255,0.03)}
+  /* responsive */
+  @media(max-width:520px){
+    .timer-circle{width:220px;height:220px}
+    .time-text{font-size:2.4rem}
+    .btn{padding:10px 16px}
+  }
+</style>
+</head>
+<body>
+  <!-- Fyxel logo -->
+  <a class="fyxel-logo" href="https://reign1919.github.io/Fyxel/" target="_blank" rel="noreferrer">Fyxel</a>
+  <!-- Back link -->
+  <a class="back-btn" href="focus.html">← Timers</a>
+
+  <div class="wrap">
+    <section class="panel" role="main" aria-labelledby="title">
+      <h1 id="title">25-minute Focus</h1>
+      <p>Strict focus: full-screen enforced. Leaving fullscreen or switching tabs will reset the session during work time.</p>
+
+      <div class="timer-box" aria-live="polite">
+        <div id="circle" class="timer-circle" aria-hidden="false" role="img" aria-label="progress">
+          <div>
+            <div class="time-text" id="timeText">25:00</div>
+            <div class="time-sub" id="timeSub">Work — 25 minutes</div>
+          </div>
+        </div>
+
+        <div class="controls" id="controls">
+          <button id="startBtn" class="btn primary">Start Focus</button>
+          <button id="cancelBtn" class="btn ghost">Reset</button>
+        </div>
+
+        <!-- break panel -->
+        <div id="breakPanel" class="break-panel" role="region" aria-label="Break">
+          <div class="muted">Break in progress</div>
+          <div class="time-text" id="breakTime">05:00</div>
+          <div>
+            <button id="continueBtn" class="continue-btn" style="display:none">Continue</button>
+          </div>
+        </div>
+
+        <div class="helper-row">
+          <div class="small-pill">Work: 25m</div>
+          <div class="small-pill">Break: 5m</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Warning overlay (shown if user leaves fullscreen during work) -->
+  <div id="overlay" class="overlay" role="alert" aria-live="assertive">
+    <div class="warn-card" role="dialog" aria-modal="true">
+      <h2>Return to Fullscreen</h2>
+      <p>You left fullscreen or switched away while a focus session was running. Return to fullscreen within <strong id="graceCounter">5</strong>s to keep progress — otherwise your session will be reset.</p>
+      <div class="warn-actions">
+        <button id="returnFs" class="btn primary">Return to Fullscreen</button>
+        <button id="giveUp" class="btn ghost">End & Reset</button>
+      </div>
+      <p class="muted">Browsers don't allow locking the keyboard or preventing alt-tab — we detect it and enforce the rules here.</p>
+    </div>
+  </div>
+
+  <!-- audio (place alarm.mp3 next to this file) -->
+  <audio id="alarmAudio" src="alarm.mp3" preload="auto"></audio>
+
+<script>
+/* Pomodoro 25 — behavior implemented:
+   - Start => request fullscreen & start work timer
+   - Leaving fullscreen or visibility change during work => overlay + grace timer; if not returned => reset
+   - When work ends => exit fullscreen, play alarm, start 5min break
+   - When break ends => play alarm twice, show Continue button; Continue => request fullscreen & start next work cycle
+*/
+
+const WORK_SECONDS = 25 * 60; // 1500
+const BREAK_SECONDS = 5 * 60; // 300
+const GRACE_SECONDS = 5; // seconds to allow return
+
+// elements
+const startBtn = document.getElementById('startBtn');
+const cancelBtn = document.getElementById('cancelBtn');
+const timeText = document.getElementById('timeText');
+const timeSub = document.getElementById('timeSub');
+const circle = document.getElementById('circle');
+const overlay = document.getElementById('overlay');
+const graceCounterEl = document.getElementById('graceCounter');
+const returnFs = document.getElementById('returnFs');
+const giveUp = document.getElementById('giveUp');
+const breakPanel = document.getElementById('breakPanel');
+const breakTimeEl = document.getElementById('breakTime');
+const continueBtn = document.getElementById('continueBtn');
+const alarmAudio = document.getElementById('alarmAudio');
+
+let workRemaining = WORK_SECONDS;
+let workInterval = null;
+let breakRemaining = BREAK_SECONDS;
+let breakInterval = null;
+let inWork = false;
+let inBreak = false;
+let graceInterval = null;
+let startedOnce = false;
+
+// helper: format mm:ss
+function fmtTime(sec){
+  const m = Math.floor(sec/60); const s = sec%60;
+  return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+// progress ring update
+function updateCircle(remaining, total){
+  const done = (total - remaining) / total;
+  const deg = Math.max(0, Math.min(360, done * 360));
+  circle.style.background = `conic-gradient(var(--neon) ${deg}deg, rgba(255,255,255,0.03) ${deg}deg)`;
+}
+
+// start work timer (assumes fullscreen requested already or attempted)
+function startWork(){
+  clearAll();
+  inWork = true;
+  inBreak = false;
+  workRemaining = WORK_SECONDS;
+  timeSub.textContent = 'Work — 25 minutes';
+  timeText.textContent = fmtTime(workRemaining);
+  updateCircle(workRemaining, WORK_SECONDS);
+  startBtn.disabled = true;
+  startedOnce = true;
+
+  workInterval = setInterval(()=>{
+    // safety: if not fullscreen or document hidden/blurred -> trigger overlay/grace
+    if(!isInFullscreen() || document.hidden || !document.hasFocus()){
+      // Pause and start grace
+      triggerGrace();
+      return;
+    }
+
+    workRemaining--;
+    if(workRemaining <= 0){
+      // work done
+      clearInterval(workInterval);
+      workInterval = null;
+      inWork = false;
+      finishWork();
+      return;
+    }
+    timeText.textContent = fmtTime(workRemaining);
+    updateCircle(workRemaining, WORK_SECONDS);
+  }, 1000);
+}
+
+// finish work -> start break sequence
+function finishWork(){
+  // Stop fullscreen enforcement
+  try{ if(document.fullscreenElement) document.exitFullscreen(); } catch(e){}
+  // play alarm once (requires user gesture in most browsers - startBtn click provided that)
+  safePlayAlarm();
+
+  // show break UI
+  inBreak = true;
+  breakPanel.classList.add('show');
+  breakRemaining = BREAK_SECONDS;
+  breakTimeEl.textContent = fmtTime(breakRemaining);
+  timeSub.textContent = 'Break — 5 minutes';
+  timeText.textContent = fmtTime(breakRemaining);
+  updateCircle(breakRemaining, BREAK_SECONDS);
+
+  // start break timer
+  breakInterval = setInterval(()=>{
+    breakRemaining--;
+    if(breakRemaining <= 0){
+      clearInterval(breakInterval);
+      breakInterval = null;
+      endBreak();
+      return;
+    }
+    breakTimeEl.textContent = fmtTime(breakRemaining);
+    timeText.textContent = fmtTime(breakRemaining);
+    updateCircle(breakRemaining, BREAK_SECONDS);
+  }, 1000);
+}
+
+// end break -> play sound twice and show Continue button
+function endBreak(){
+  // play alarm twice
+  safePlayAlarm();
+  setTimeout(()=> safePlayAlarm(), 650);
+  // show continue button
+  continueBtn.style.display = 'inline-block';
+  continueBtn.focus();
+  // stop showing break panel if you want to freeze UI; keep showing break time 00:00
+  timeSub.textContent = 'Break ended';
+  timeText.textContent = '00:00';
+  updateCircle(0, BREAK_SECONDS);
+}
+
+// play alarm safely (catch errors)
+function safePlayAlarm(){
+  try{
+    alarmAudio.currentTime = 0;
+    alarmAudio.play().catch(()=>{ /* autoplay blocked if no gesture — but start is a gesture */});
+  } catch(e){}
+}
+
+// request fullscreen wrapper (returns promise)
+async function goFullscreen(){
+  const el = document.documentElement;
+  if(el.requestFullscreen){
+    try{ await el.requestFullscreen(); return true; } catch(e){ return false; }
+  }
+  return false;
+}
+function isInFullscreen(){
+  return !!document.fullscreenElement;
+}
+
+// overlay grace handling
+function triggerGrace(){
+  // if already overlay visible, do nothing
+  if(overlay.classList.contains('show')) return;
+
+  // Pause work timer immediately
+  if(workInterval){ clearInterval(workInterval); workInterval = null; }
+
+  overlay.classList.add('show');
+  let remaining = GRACE_SECONDS;
+  graceCounterEl.textContent = remaining;
+  graceInterval = setInterval(()=>{
+    remaining--;
+    graceCounterEl.textContent = remaining;
+    // if user restored fullscreen & focused -> resume
+    if(isInFullscreen() && !document.hidden && document.hasFocus()){
+      clearInterval(graceInterval); graceInterval = null;
+      overlay.classList.remove('show');
+      // resume work timer
+      startWork(); // starts fresh interval with current workRemaining
+      return;
+    }
+    if(remaining <= 0){
+      clearInterval(graceInterval); graceInterval = null;
+      // user did not return in time -> reset session
+      overlay.classList.remove('show');
+      resetAll(true); // reset and indicate due to violation
+    }
+  }, 1000);
+}
+
+// giveUp: explicit reset
+function giveUpHandler(){
+  if(graceInterval){ clearInterval(graceInterval); graceInterval = null; }
+  overlay.classList.remove('show');
+  resetAll(true);
+}
+
+// user clicks Return to Fullscreen from overlay
+async function returnFsHandler(){
+  try{
+    await goFullscreen();
+  } catch(e){}
+  // overlay removal/resume handled by event listeners and grace logic
+}
+
+// reset everything
+function resetAll(violation=false){
+  clearAll();
+  inWork = false; inBreak = false;
+  workRemaining = WORK_SECONDS;
+  breakRemaining = BREAK_SECONDS;
+  startBtn.disabled = false;
+  continueBtn.style.display = 'none';
+  breakPanel.classList.remove('show');
+  timeSub.textContent = 'Work — 25 minutes';
+  timeText.textContent = fmtTime(workRemaining);
+  updateCircle(workRemaining, WORK_SECONDS);
+
+  if(violation){
+    // gentle UX: show a short toast in-page
+    alert('Focus reset: you left fullscreen or switched away during a work session.');
+  }
+}
+
+// clear intervals & overlays
+function clearAll(){
+  if(workInterval){ clearInterval(workInterval); workInterval=null; }
+  if(breakInterval){ clearInterval(breakInterval); breakInterval=null; }
+  if(graceInterval){ clearInterval(graceInterval); graceInterval=null; }
+  overlay.classList.remove('show');
+}
+
+// start button handler
+startBtn.addEventListener('click', async ()=>{
+  // request fullscreen first (user gesture)
+  const ok = await goFullscreen().catch(()=>false);
+  // If fullscreen denied, we still start but warn
+  if(!ok && !isInFullscreen()){
+    const cont = confirm('Could not enter fullscreen. Focus mode works best in fullscreen. Continue anyway?');
+    if(!cont) return;
+  }
+  // start work timer
+  startWork();
+});
+
+// Cancel/Reset
+cancelBtn.addEventListener('click', ()=>{
+  const c = confirm('Reset the current focus session?');
+  if(c) resetAll(false);
+});
+
+// continue (after break)
+continueBtn.addEventListener('click', async ()=>{
+  // try to go fullscreen and start next work
+  continueBtn.style.display = 'none';
+  breakPanel.classList.remove('show');
+  const ok = await goFullscreen().catch(()=>false);
+  if(!ok && !isInFullscreen()){
+    alert('Could not enter fullscreen. Start will proceed but without fullscreen.');
+  }
+  startWork();
+});
+
+// overlay buttons
+returnFs.addEventListener('click', returnFsHandler);
+giveUp.addEventListener('click', giveUpHandler);
+
+// global detection: if fullscreen change occurs while inWork and not fullscreen -> trigger grace
+document.addEventListener('fullscreenchange', ()=>{
+  if(inWork && !isInFullscreen()){
+    // user left fullscreen during work
+    triggerGrace();
+  }
+});
+
+// detect visibility/tab change
+document.addEventListener('visibilitychange', ()=>{
+  if(inWork && document.hidden){
+    triggerGrace();
+  }
+});
+
+// detect window blur (alt-tab or switch apps)
+window.addEventListener('blur', ()=>{
+  if(inWork){
+    // tiny delay to avoid quick focus switches
+    setTimeout(()=> { if(inWork && !document.hasFocus()) triggerGrace(); }, 150);
+  }
+});
+
+// initialize UI
+resetAll(false);
+</script>
+</body>
+</html>

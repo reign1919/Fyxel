@@ -1,0 +1,99 @@
+body {
+  background: #0b0f1a;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.focus-presets {
+  text-align: center;
+  padding: 40px 20px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  max-width: 600px;
+  width: 90%;
+}
+
+.preset-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 32px;
+  color: #e0e0e0;
+}
+
+.preset-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.pom-btn {
+  padding: 20px 28px;
+  text-decoration: none; /* removes underline */
+  font-size: 1.2rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 16px;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+  min-width: 200px;
+}
+
+.pom-btn span {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin-top: 6px;
+  color: rgba(255,255,255,0.9);
+}
+
+/* Neon gradient variations */
+.preset-classic { 
+  background: linear-gradient(135deg, #00f6ff, #7be8ff); 
+  box-shadow: 0 6px 20px rgba(0,246,255,0.4);
+}
+.preset-deep { 
+  background: linear-gradient(135deg, #818cf8, #5f3dc4); 
+  box-shadow: 0 6px 20px rgba(129,140,248,0.4);
+}
+.preset-52-17 { 
+  background: linear-gradient(135deg, #34d399, #059669); 
+  box-shadow: 0 6px 20px rgba(52,211,153,0.4);
+}
+
+.pom-btn:hover {
+  transform: scale(1.05);
+}
+
+.pom-btn:active {
+  transform: scale(0.96);
+}
+
+.fyxel-logo {
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  font-size: 1.8rem;
+  font-weight: 900;
+  font-family: 'Inter', sans-serif;
+  text-decoration: none;
+  color: #00f6ff;
+  text-shadow: 0 0 6px #00f6ff, 0 0 14px #00f6ff, 0 0 24px #00f6ff;
+  transition: transform 0.2s, text-shadow 0.3s;
+  z-index: 1000;
+}
+
+.fyxel-logo:hover {
+  transform: scale(1.1);
+  text-shadow: 0 0 10px #7be8ff, 0 0 20px #00f6ff, 0 0 30px #00f6ff;
+}
+
+
